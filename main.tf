@@ -13,6 +13,10 @@ provider "azurerm" {
   subscription_id = var.subscription_id
 }
 
+data "azurerm_resource_group" "rg" {
+  name = var.resource_group_name
+}
+
 module "network" {
   source = "./modules/network"
 
@@ -41,9 +45,10 @@ module "compute" {
   source = "./modules/compute"
 
   resource_group_name  = var.resource_group_name
+  subnet_id            = module.network.subnet_id
+  public_ip_id         = module.network.public_ip_id
   location             = var.location
   vm_name              = var.vm_name
-  network_interface_id = module.network.vm_nic_id
   admin_username       = var.admin_username
   admin_ssh_key        = var.ssh_key_public
   vm_size              = var.vm_size

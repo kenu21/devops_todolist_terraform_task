@@ -1,5 +1,10 @@
-variable "network_interface_id" {
-  description = "ID of the network interface to attach to the VM"
+variable "subnet_id" {
+  description = "ID of the subnet for the VM's network interface"
+  type        = string
+}
+
+variable "public_ip_id" {
+  description = "ID of the Public IP assigned to the VM's network interface"
   type        = string
 }
 

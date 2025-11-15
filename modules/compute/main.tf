@@ -1,3 +1,16 @@
+resource "azurerm_network_interface" "vm_nic" {
+  name                = "${var.vm_name}-nic"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = var.subnet_id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = var.public_ip_id
+  }
+}
+
 resource "azurerm_linux_virtual_machine" "vm" {
   name                = var.vm_name
   resource_group_name = var.resource_group_name
@@ -6,7 +19,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   admin_username      = var.admin_username
 
   network_interface_ids = [
-    var.network_interface_id,
+    azurerm_network_interface.vm_nic.id,
   ]
 
   admin_ssh_key {
