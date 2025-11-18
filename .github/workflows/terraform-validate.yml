@@ -30,6 +30,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
+    # # TODO: The test must be fixed in the main branch. Resource group must exist before terraform init
     - name: Check resource group data source
       run: |
         if ! grep -q 'data "azurerm_resource_group"' main.tf; then
